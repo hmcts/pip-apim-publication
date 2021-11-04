@@ -1,0 +1,18 @@
+parameters:
+  - name: subscription
+    type: string
+
+steps:
+
+- task: TerraformCLI@0
+  displayName: Terraform init
+  inputs:
+    command: init
+    workingDirectory: $(System.DefaultWorkingDirectory)/infrastructure/terraform/
+    backendType: azurerm
+    backendServiceArm: ${{ parameters.subscription }}
+    backendAzureRmResourceGroupName: $(devopsResourceGroup)
+    backendAzureRmResourceGroupLocation: $(location)
+    backendAzureRmStorageAccountName: $(devopsStorageAccount)
+    backendAzureRmContainerName: $(prefix)$(product)terraform
+    backendAzureRmKey: apim/$(Build.Repository.Name).tfstate

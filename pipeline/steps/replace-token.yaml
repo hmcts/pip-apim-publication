@@ -1,0 +1,27 @@
+parameters:
+  - name: path
+    type: string
+
+  - name: environment
+    type: string
+
+steps:
+- task: DownloadSecureFile@1
+  displayName: 'Download secure file'
+  name: policy_variables_${{ parameters.environment }}
+  inputs:
+    secureFile: policy-variables-${{ parameters.environment }}.json
+- task: replacetokens@3
+  displayName: Replace Tokens in Policy files
+  inputs:
+    targetFiles: ${{parameters.path}}
+    encoding: 'auto'
+    escapeType: 'html'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
+    useLegacyPattern: false
+    variableFiles: $(policy_variables_${{ parameters.environment }}.secureFilePath)
+    enableTelemetry: true

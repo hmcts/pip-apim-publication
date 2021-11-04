@@ -1,0 +1,6 @@
+steps:
+
+- task: TerraformInstaller@0
+  displayName: Install Terraform 1.0.7
+  inputs:
+    terraformVersion: 1.0.7

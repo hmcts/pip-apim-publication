@@ -1,0 +1,44 @@
+{
+  "policies": [
+    {
+      "operationId": "get-publications",
+      "templateFile": "pip-api-publications-get-policy.xml",
+      "displayName": "Get Publications",
+      "description": "Get Publications",
+      "method": "GET",
+      "url_template" : "/publications"
+    },
+    {
+      "operationId": "post-publications",
+      "templateFile": "pip-api-publications-create-policy.xml",
+      "displayName": "Create Publications",
+      "description": "Create Publications",
+      "method": "POST",
+      "url_template" : "/publications"
+    },
+    {
+      "operationId": "create-lists",
+      "templateFile": "pip-api-create-lists-policy.xml",
+      "displayName": "Create lists",
+      "description": "Create lists",
+      "method": "GET",
+      "url_template" : "/publications/list"
+    },
+    {
+      "operationId": "update-lists",
+      "templateFile": "pip-api-update-lists-policy.xml",
+      "displayName": "Update Publications",
+      "description": "Update Publications",
+      "method": "PUT",
+      "url_template" : "/publications"
+    },
+    {
+      "operationId": "delete-lists",
+      "templateFile": "pip-api-delete-lists-policy.xml",
+      "displayName": "Delete Publications",
+      "description": "Delete Publications",
+      "method": "DELETE",
+      "url_template" : "/publications"
+    }
+  ]
+}

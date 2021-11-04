@@ -1,0 +1,43 @@
+/src/acceptanceTest/resources/application-acceptance.yaml
+/src/contractTest/resources/application-contract.yaml
+/src/functionalTest/resources/application-functional.yaml
+/src/smokeTest/resources/application-smoke.yaml
+/src/test/resources/application-local.yaml
+/src/test/resources/application-test.yaml
+/src/integrationTest/resources/application-integration.yaml
+
+/src/acceptanceTest/resources/application-pip-acceptance.yaml
+/src/functionalTest/resources/application-pip-functional.yaml
+/src/smokeTest/resources/application-pip-smoke.yaml
+/src/test/resources/application-pip-test.yaml
+/src/integrationTest/resources/application-pip-integration.yaml
+
+.gradle
+/build/
+/target/
+!gradle/wrapper/gradle-wrapper.jar
+*.class
+bin/main/application.yaml
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+/out
+*.iws
+*.iml
+*.ipr
+
+.DS_Store
+
+## Ignore Terraform
+.terraform
+.idea/
+*terraform.lock.hcl
+**/**/override.tf

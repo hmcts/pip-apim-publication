@@ -1,0 +1,53 @@
+---
+trigger:
+  - master
+pr:
+  - none
+
+resources:
+  repositories:
+    - repository: azTemplates
+      type: github
+      name: hmcts/azure-devops-templates
+      ref: refs/heads/master
+      endpoint: hmcts
+
+parameters:
+  - name: environments
+    displayName: "Environments to run."
+    type: object
+    default:
+    - name: sbox
+    - name: dev
+    - name: test
+    - name: stg
+    - name: prod
+
+variables:
+  - group: PIP-APIM-Common
+
+stages:
+
+  - template: pipeline/stages/validate.yaml
+
+  - ${{ each environment in parameters.environments }}:  
+    - template: pipeline/stages/plan.yaml
+      parameters:
+        environment: ${{ environment }}
+        subscription: DTS-SHAREDSERVICES-${{ upper(environment) }}
+
+    - ${{ if eq(environment, 'prod') }}:
+      - template: pipeline/stages/wait.yaml
+        parameters:
+          environment: ${{ environment }}
+
+    - template: pipeline/stages/apply.yaml
+      parameters:
+        environment: ${{ environment }}
+        subscription: DTS-SHAREDSERVICES-${{ upper(environment) }}
+    
+    - ${{ if ne(environment, 'prod' )}}:
+      - template: pipeline/stages/test.yaml
+        parameters:
+          environment: ${{ environment }}
+          subscription: DTS-SHAREDSERVICES-${{ upper(environment) }}

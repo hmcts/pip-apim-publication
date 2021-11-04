@@ -1,0 +1,33 @@
+parameters:
+  - name: subscription
+    type: string
+    
+steps:
+- task: AzurePowerShell@5
+  displayName: Apply Policies to APIM API
+  inputs:
+    azureSubscription: ${{ parameters.subscription }}
+    ScriptType: 'InlineScript'
+    Inline: |
+      $apimContext = New-AzApiManagementContext -ResourceGroupName $(resourceGroup) -ServiceName "pip-apim-svc-$(environment)"
+      $policies = (Get-Content $(System.DefaultWorkingDirectory)\infrastructure\template\policies.json -Raw | ConvertFrom-Json).policies
+      foreach ($_ in $policies) {
+        $format = $_.format
+        $operationId = $_.operationId
+        $file = $_.templateFile
+        $errorAction = $_.errorAction
+        Write-Host "Applying $operationId"
+        Set-AzApiManagementPolicy -Context $apimContext -ApiId "pip-apim-api" -Format $format -OperationId $operationId -PolicyFilePath $(System.DefaultWorkingDirectory)\infrastructure\template\$file -Verbose -ErrorAction $errorAction
+      }
+      Write-Host "Applying Base policy"
+      Set-AzApiManagementPolicy -Context $apimContext -ApiId "pip-apim-api" -Format "application/vnd.ms-azure-apim.policy.raw+xml" -PolicyFilePath $(System.DefaultWorkingDirectory)\infrastructure\template\api-policy.xml -Verbose -ErrorAction Stop
+      
+      Write-Host "Applying Healthcheck policy"
+      Set-AzApiManagementPolicy -Context $apimContext -ApiId "pip-apim-api-health" -Format "application/vnd.ms-azure-apim.policy.raw+xml" -OperationId liveness-check -PolicyFilePath $(System.DefaultWorkingDirectory)\infrastructure\template\api-health-check-policy.xml -Verbose -ErrorAction Stop
+
+      Write-Host "Applying IpCheck policy"
+      Set-AzApiManagementPolicy -Context $apimContext -ApiId "pip-apim-api-health" -Format "application/vnd.ms-azure-apim.policy.raw+xml" -OperationId ip-check -PolicyFilePath $(System.DefaultWorkingDirectory)\infrastructure\template\api-ip-check-policy.xml -Verbose -ErrorAction Stop
+
+      Write-Host "Applying Product policy"
+      Set-AzApiManagementPolicy -Context $apimContext -ProductId "pip-apim-product-$(environment)" -Format "application/vnd.ms-azure-apim.policy.raw+xml" -PolicyFilePath $(System.DefaultWorkingDirectory)\infrastructure\template\pip-product-policy.xml -Verbose -ErrorAction Stop
+    azurePowerShellVersion: 'LatestVersion'
