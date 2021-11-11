@@ -8,8 +8,7 @@ locals {
     "display_name" = v.displayName,
     "method"       = v.method,
     "url_template" = v.url_template,
-    "description"  = v.description,
-    "xml_link"     = ""
+    "description"  = v.description
   }])
 }
 
