@@ -20,14 +20,14 @@ jobs:
     displayName: 'Download tfplan'
     artifact: tfplan-$(environment).tfplan
   - task: CopyFiles@2
+    displayName: Move plan location
     inputs:
       sourceFolder: '$(Pipeline.Workspace)/tfplan-$(environment).tfplan'
       targetFolder: '$(System.DefaultWorkingDirectory)/infrastructure/terraform/'
-  - template: ../steps/apim-availability.yaml
+  - template: ../steps/replace-token.yaml
     parameters:
-      subscriptionName: ${{ parameters.subscription }}
-      apimName: "$(prefix)-$(product)-svc-$(environment)"
-      resourceGroupName: "$(prefix)-$(product)-$(environment)-rg"
+      path: '**/*-policy.xml'
+      environment: ${{ parameters.environment }}
   - template: ../steps/tf-install.yaml
   - template: ../steps/tf-init.yaml
     parameters:

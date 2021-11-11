@@ -21,10 +21,3 @@ stages:
       parameters:
         displayName: Build ${{ parameters.environment }}
         subscription: ${{ parameters.subscription }}
-    - template: ../jobs/apply-policies.yaml
-      parameters:
-        displayName: Apply API Policies
-        subscription: ${{ parameters.subscription }}
-        environment: ${{ parameters.environment }}
-        dependsOn: 
-        - TerraformApply
