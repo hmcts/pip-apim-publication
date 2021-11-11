@@ -9,7 +9,7 @@ locals {
     "method"       = v.method,
     "url_template" = v.url_template,
     "description"  = v.description,
-    "xml_link" = ""
+    "xml_link"     = ""
   }])
 }
 
