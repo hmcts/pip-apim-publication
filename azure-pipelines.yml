@@ -17,11 +17,11 @@ parameters:
     displayName: "Environments to run."
     type: object
     default:
-    - name: sbox
-    - name: dev
-    - name: test
-    - name: stg
-    - name: prod
+    - sbox
+    - dev
+    - test
+    - stg
+    - prod
 
 variables:
   - group: PIP-APIM-Common
