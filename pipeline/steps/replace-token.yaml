@@ -2,9 +2,6 @@ parameters:
   - name: path
     type: string
 
-  - name: environment
-    type: string
-
 steps:
 - task: replacetokens@3
   displayName: Replace Tokens in Policy files
