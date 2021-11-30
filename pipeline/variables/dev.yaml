@@ -1,3 +1,0 @@
-variables:
-  - name: env_longname
-    value: development

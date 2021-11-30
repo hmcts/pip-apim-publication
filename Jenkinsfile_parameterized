@@ -1,0 +1,21 @@
+#!groovy
+//noinspection GroovyUnusedAssignment
+@Library("Infrastructure") _
+
+def product = "pip"
+def component = "publication-service-apim"
+
+
+
+static Map<String, Object> secret(String secretName, String envVariable) {
+  [
+    $class     : 'AzureKeyVaultSecret',
+    secretType : 'Secret',
+    name       : secretName,
+    envVariable: envVariable
+  ]
+}
+
+withParameterizedInfraPipeline(product, 'sbox', 'sbox', component) {
+
+}
