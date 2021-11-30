@@ -48,11 +48,11 @@ module "apim_api_policy" {
 }
 
 module "apim_api_operations" {
-  for_each          = { for operation in local.api_operations : operation.display_name => operation }
-  source            = "git@github.com:hmcts/cnp-module-api-mgmt-api-operation?ref=master"
-  api_mgmt_name     = local.apim_name
-  api_mgmt_rg       = local.apim_rg
-  api_mgmt_api_name = local.api_name
+  for_each      = { for operation in local.api_operations : operation.display_name => operation }
+  source        = "git@github.com:hmcts/cnp-module-api-mgmt-api-operation?ref=master"
+  api_mgmt_name = local.apim_name
+  api_mgmt_rg   = local.apim_rg
+  api_name      = local.api_name
 
   operation_id = each.value.operation_id
   display_name = each.value.display_name
