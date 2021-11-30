@@ -1,10 +1,10 @@
 locals {
-
-  api_operations_json = jsondecode(file("./template/policies.json"))
+  root_path           = "./infrastructure/template"
+  api_operations_json = jsondecode(file("${local.root_path}/policies.json"))
   api_operations = flatten([for v in local.api_operations_json.policies : {
     "operation_id" = v.operationId,
     "api_name"     = "service-api",
-    "xml_content"  = file("./template/${v.templateFile}"),
+    "xml_content"  = file("${local.root_path}/${v.templateFile}"),
     "display_name" = v.displayName,
     "method"       = v.method,
     "url_template" = v.url_template,
@@ -44,7 +44,7 @@ module "apim_api_policy" {
   api_mgmt_name          = local.apim_name
   api_mgmt_rg            = local.apim_rg
   api_name               = local.api_name
-  api_policy_xml_content = file("./template/api-policy.xml")
+  api_policy_xml_content = file("${local.root_path}/api-policy.xml")
 }
 
 module "apim_api_operations" {
