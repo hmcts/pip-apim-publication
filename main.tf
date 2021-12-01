@@ -31,7 +31,7 @@ module "apim_api" {
   display_name   = local.api_name
   name           = local.api_name
   path           = var.product
-  product_id     = data.azurerm_api_management_product.apim_product.product_id
+  #product_id     = data.azurerm_api_management_product.apim_product.product_id
   protocols      = ["https"]
   revision       = "1"
   service_url    = var.service_url
