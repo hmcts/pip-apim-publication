@@ -3,12 +3,7 @@ locals {
   api_operations_json = jsondecode(file("${local.root_path}/policies.json"))
   api_operations = flatten([for v in local.api_operations_json.policies : {
     "operation_id" = v.operationId,
-    "api_name"     = "service-api",
-    "xml_content"  = file("${local.root_path}/${v.templateFile}"),
-    "display_name" = v.displayName,
-    "method"       = v.method,
-    "url_template" = v.url_template,
-    "description"  = v.description
+    "xml_content"  = file("${local.root_path}/${v.templateFile}")
   }])
   env       = (var.env == "aat") ? "stg" : (var.env == "sandbox") ? "sbox" : "${(var.env == "perftest") ? "test" : "${var.env}"}"
   apim_name = "sds-api-mgmt-${local.env}"
@@ -48,7 +43,7 @@ module "apim_api_policy" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "apim_api_operation_policy" {
-  for_each      = { for operation in local.api_operations : operation.display_name => operation }
+  for_each      = { for operation in local.api_operations : operation.operation_id => operation }
   operation_id        = each.value.operation_id
   api_name            = local.api_name
   api_management_name = local.apim_name
