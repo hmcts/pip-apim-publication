@@ -26,17 +26,17 @@ data "azurerm_api_management_product" "apim_product" {
 module "apim_api" {
   source = "git@github.com:hmcts/cnp-module-api-mgmt-api?ref=master"
 
-  api_mgmt_name = local.apim_name
-  api_mgmt_rg   = local.apim_rg
-  display_name  = local.api_name
-  name          = local.api_name
-  path          = var.product
-  product_id    = data.azurerm_api_management_product.apim_product.product_id
-  protocols     = ["https"]
-  revision      = "1"
-  service_url   = var.service_url
-  swagger_url   = var.open_api_spec_content_value
-
+  api_mgmt_name  = local.apim_name
+  api_mgmt_rg    = local.apim_rg
+  display_name   = local.api_name
+  name           = local.api_name
+  path           = var.product
+  product_id     = data.azurerm_api_management_product.apim_product.product_id
+  protocols      = ["https"]
+  revision       = "1"
+  service_url    = var.service_url
+  swagger_url    = var.open_api_spec_content_value
+  content_format = var.open_api_spec_content_format
 }
 
 module "apim_api_policy" {
