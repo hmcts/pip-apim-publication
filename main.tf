@@ -47,17 +47,11 @@ module "apim_api_policy" {
   api_policy_xml_content = file("${local.root_path}/api-policy.xml")
 }
 
-module "apim_api_operations" {
+resource "azurerm_api_management_api_operation_policy" "apim_api_operation_policy" {
   for_each      = { for operation in local.api_operations : operation.display_name => operation }
-  source        = "git@github.com:hmcts/cnp-module-api-mgmt-api-operation?ref=master"
-  api_mgmt_name = local.apim_name
-  api_mgmt_rg   = local.apim_rg
-  api_name      = local.api_name
-
-  operation_id = each.value.operation_id
-  display_name = each.value.display_name
-  method       = each.value.method
-  url_template = each.value.url_template
-  description  = each.value.description
-  xml_content  = each.value.xml_content
+  operation_id        = each.value.operation_id
+  api_name            = local.api_name
+  api_management_name = local.apim_name
+  resource_group_name = local.apim_rg
+  xml_content         = each.value.xml_content
 }
